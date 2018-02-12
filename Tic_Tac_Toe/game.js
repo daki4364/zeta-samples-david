@@ -1,4 +1,4 @@
-class Game{
+module.exports = class Game{
 
     initNewGame(player){
         this.players=[player, "AI_Player"];
@@ -44,7 +44,11 @@ class Game{
         console.log(`Current game state: ${this.currentState}`);
     }
     kiAct(){
-        if(this.currentPlayer ===this.players[1])this.act(this._minimax(this.field, this.players[1]).index);
+        let kiActed = false;
+        if(this.currentPlayer ===this.players[1]){
+            kiActed = this.act(this._minimax(this.field, this.players[1]).index);
+        }
+        return kiActed;
     }
 
     _minimax(newField, player){
@@ -142,7 +146,7 @@ class Game{
 }
 
 
-ttt = new Game();
+/**ttt = new Game();
 ttt.initNewGame("David");
 process.stdin.setEncoding('utf8');
 const stdin = process.openStdin();
@@ -150,4 +154,4 @@ stdin.addListener('data', function(data) {
     ttt.act(parseInt(data));
     ttt.kiAct();
     ttt._printGameState();
-});
+});**/

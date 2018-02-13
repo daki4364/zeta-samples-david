@@ -1,7 +1,14 @@
 // Methoden Testframework
+
+let failedTests = [];
+let passedTests = [];
+
 const assertEquals = (expected, actual) => {
     if(expected!=actual){
-        console.error(`Expected ${expected}, but got ${actual} instead!!!`);
+        failedTests.push(new Error(`\n  Failed Test Nr.${failedTests.length+1}: Expected ${expected}, but got ${actual} instead!!!`));
+    }
+    else{
+        passedTests.push(`\n    Passed Test Nr.${passedTests.length+1}: Expected ${expected} and got ${actual}!!!`)
     }
 };
 const runTests = (testClass) => {
@@ -14,6 +21,9 @@ const runTests = (testClass) => {
             test[func].call(test);
         }
     }
+    console.info(`##############TEST-RESULTS################\nExecuted ${failedTests.length+passedTests.length} Tests:`)
+    console.info(`Failed ${failedTests.length} Tests: ${failedTests}`);
+    console.info(`Passed ${passedTests.length} Tests: ${passedTests}`);
 };
 module.exports.assertEquals = assertEquals;
 module.exports.runTests = runTests;

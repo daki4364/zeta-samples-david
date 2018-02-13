@@ -6,16 +6,14 @@ const assertEquals = (expected, actual) => {
 };
 const runTests = (testClass) => {
     let test = new testClass();
-    test.test_initNewGame("Test_Player");
-    test.test_getCurrentPlayer("Test_Player");
-    test.test_checkGameStatus("open");
-    test.test_doPlayerTurn(true,0);
-    test._printGameState();
-    test.test_getCurrentPlayer("AI_Player");
-    test.test_checkGameStatus("open");
-    test.test_doKiTurn(true);
-    test._printGameState();
+    let methods= Object.getOwnPropertyNames(testClass.prototype);
+    let before = methods.filter(func => func==="setup" );
+    test[before].call(test);
+    for(let func of methods){
+        if(func.startsWith("test")){
+            test[func].call(test);
+        }
+    }
 };
-
 module.exports.assertEquals = assertEquals;
 module.exports.runTests = runTests;

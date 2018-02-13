@@ -1,6 +1,6 @@
-module.exports = class Game{
+class Game{
 
-    initNewGame(player){
+    initNewGame(player,){
         this.players=[player, "AI_Player"];
         this.gameStates =["open", "player1won", "player2won", "draw"];
         this.winCombos = [
@@ -41,7 +41,7 @@ module.exports = class Game{
         console.log(...firstRow);
         console.log(...secondRow);
         console.log(...thirdRow);
-        console.log(`Current game state: ${this.currentState}`);
+        console.log(`Current game state: ${this.currentState}\n`);
     }
     kiAct(){
         let kiActed = false;
@@ -145,7 +145,6 @@ module.exports = class Game{
     }
 }
 
-
 /**ttt = new Game();
 ttt.initNewGame("David");
 process.stdin.setEncoding('utf8');
@@ -155,3 +154,5 @@ stdin.addListener('data', function(data) {
     ttt.kiAct();
     ttt._printGameState();
 });**/
+
+module.exports.Game = Game;

@@ -8,7 +8,7 @@ const assertEquals = (expected, actual) => {
         failedTests.push(new Error(`\n  Failed Test Nr.${failedTests.length+1}: Expected ${expected}, but got ${actual} instead!!!`));
     }
     else{
-        passedTests.push(`\n    Passed Test Nr.${passedTests.length+1}: Expected ${expected} and got ${actual}!!!`)
+        passedTests.push(`\n    Passed Test Nr.${passedTests.length+1}: Expected ${expected} and got ${actual}!!!`);
     }
 };
 const runTests = (testClass) => {

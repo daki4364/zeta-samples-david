@@ -19,7 +19,9 @@ function _input(key,game){
         if(key===INPUT_FEED){
             game.dino._feed();
             console.log(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
+            game._saveEvent(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
             printer._printGameState(game);
+            game._saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_DRINK){
             game.dino._drink();
@@ -49,11 +51,18 @@ function _input(key,game){
                 .then((data)=>console.log(printer._getCurrentTime()+"Saved game"))
                 .catch((err)=>{throw err;});
         }
+        else if(key===INPUT_AUTO){
+            game.autoSave = !game.autoSave;
+            console.log(printer._getCurrentTime()+"Auto save set to: "+game.autoSave);
+        }
     }
     else if(game.gameState==="stop")
     {
         if(key===INPUT_START){
             game._startGame();
+            if(game.dino.events.length !== 0){
+                console.log(...game.dino.events);
+            }
         }
     }
 }
@@ -68,3 +77,4 @@ module.exports.INPUT_PAUSE = INPUT_PAUSE;
 module.exports.INPUT_RESUME = INPUT_RESUME;
 module.exports.INPUT_END = INPUT_END;
 module.exports.INPUT_START = INPUT_START;
+module.exports.INPUT_AUTO = INPUT_AUTO;

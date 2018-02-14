@@ -5,6 +5,7 @@ const fs = require("fs");
 class Game{
 
     constructor(filePath){
+        this.autoSave = false;
         this.funcs = ["_getsHungry","_getsThirsty","_getsDirty","_getsSick"];
         this.gameState = "stop";
         this.filePath = filePath.toLowerCase();
@@ -106,6 +107,13 @@ class Game{
 
     }
     _gameLoop(){
+        if(this.autoSave){
+            setInterval(()=>{
+                this._saveGame()
+                    .then((data)=>{console.log(printer._getCurrentTime()+"Auto Saved game");})
+                    .catch((err)=>{throw err;});
+            },20000);
+        }
         if(this.gameState==="pause"){
             return;
         }
@@ -115,7 +123,9 @@ class Game{
                 if(this.gameState==="run"){
                     this.dino[data.need]-=data.value;
                     console.log(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
+                    this._saveEvent(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
                     printer._printGameState(this);
+                    this._saveEvent(printer._getGameState(this));
                 }
             if(this.dino.checkIfDead()===false){
                 this._gameLoop();
@@ -144,6 +154,19 @@ class Game{
         else{
             return " wird krank!";
         }
+    }
+    _saveEvent(event){
+        this.dino.events.push("\n"+event);
+        //console.log(this.dino.events);
+    }
+    _autoSave(currentTime){
+        let time = currentTime;
+        if(currentTime-time>30){
+            this._saveGame()
+                .then((data)=>{console.log(printer._getCurrentTime()+"Auto Saved game");})
+                .catch((err)=>{throw err;});
+        }
+
     }
 }
 

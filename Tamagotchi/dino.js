@@ -6,6 +6,7 @@ class Dino{
         this.durst= 100;
         this.sauberkeit = 100;
         this.gesundheit = 100;
+        this.events = [];
     }
 
     load(data){
@@ -14,6 +15,7 @@ class Dino{
         this.durst= data.durst;
         this.sauberkeit = data.sauberkeit;
         this.gesundheit = data.gesundheit;
+        this.events = data.events;
     }
     _getsThirsty(){
         let need=Math.floor(Math.random() * (50 - 10 + 1)) + 10;

@@ -37,7 +37,15 @@ class Game{
                     resolve(JSON.parse(data));
                 }
             })
-        }).then((data) => {this.dino.load(data);this._startGame()})
+        }).then((data) => {
+            this.dino.load(data);
+            if(this.dino.checkIfDead()){
+                this._gameOver();
+            }
+            else{
+                console.log(printer._getCurrentTime()+"Input 'START' to start the game!");
+            }
+        })
             .catch((err)=> {throw err});
     }
     _createSaveFile(filePath,data){

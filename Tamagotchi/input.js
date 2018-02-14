@@ -7,6 +7,7 @@ const INPUT_HEAL = "G";
 const INPUT_SAVE = "SAVE";
 const INPUT_PAUSE = "PAUSE";
 const INPUT_RESUME = "RESUME";
+const INPUT_START = "START";
 const INPUT_END= "EXIT";
 const INPUT_AUTO= "AUTO";
 
@@ -45,8 +46,14 @@ function _input(key,game){
         }
         else if(key===INPUT_SAVE){
             game._saveGame()
-                .then((data)=>console.log(printer._getCurrentTime()+" Saved game"))
+                .then((data)=>console.log(printer._getCurrentTime()+"Saved game"))
                 .catch((err)=>{throw err;});
+        }
+    }
+    else if(game.gameState==="stop")
+    {
+        if(key===INPUT_START){
+            game._startGame();
         }
     }
 }
@@ -60,3 +67,4 @@ module.exports.INPUT_SAVE = INPUT_SAVE;
 module.exports.INPUT_PAUSE = INPUT_PAUSE;
 module.exports.INPUT_RESUME = INPUT_RESUME;
 module.exports.INPUT_END = INPUT_END;
+module.exports.INPUT_START = INPUT_START;

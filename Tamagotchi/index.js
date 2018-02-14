@@ -9,7 +9,6 @@ process.argv.forEach((val, index) => {
     if(index ===2){
         name = val.split("=");
         name = name[1];
-        console.log(name);
     }
 });
 

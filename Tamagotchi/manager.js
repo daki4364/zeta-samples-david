@@ -1,6 +1,7 @@
 const dino = require('./dino.js');
 const printer = require('./printer.js');
 const fs = require("fs");
+const chalk = require('chalk');
 
 class Game{
 
@@ -27,7 +28,7 @@ class Game{
     }
     _loadSaveFile(filePath){
         new Promise((resolve, reject)=>{
-            console.log(printer._getCurrentTime()+"Load game file...");
+            console.log(printer._getCurrentTime()+ chalk.blue("Load game file..."));
             fs.readFile(filePath,(err, data) => {
                 if (err){
                     //console.log("loading file rejected");
@@ -44,14 +45,14 @@ class Game{
                 this._gameOver();
             }
             else{
-                console.log(printer._getCurrentTime()+"Input 'START' to start the game!");
+                console.log(printer._getCurrentTime()+chalk.bold.blue("Input 'START' to start the game!"));
             }
         })
             .catch((err)=> {throw err});
     }
     _createSaveFile(filePath,data){
         return new Promise((resolve, reject)=>{
-            console.log(printer._getCurrentTime()+"Create new game file...");
+            console.log(printer._getCurrentTime()+chalk.blue("Create new game file..."));
             fs.writeFile(filePath,data,(err) => {
                 if (err){
                     //console.log("create game file rejected");
@@ -67,7 +68,7 @@ class Game{
 
     _saveGame(){
         return new Promise((resolve, reject)=>{
-            console.log(printer._getCurrentTime()+"Saving game...");
+            console.log(printer._getCurrentTime()+chalk.yellow("Saving game..."));
             fs.writeFile(this.filePath,this.dino.toJson(),(err) => {
                 if (err){
                     //console.log("saving game rejected");
@@ -82,12 +83,12 @@ class Game{
     }
     _stopGame(){
         this.gameState = "stop";
-        console.log(printer._getCurrentTime()+"Stop Game");
+        console.log(printer._getCurrentTime()+chalk.bold.red("Stop Game"));
         process.exit();
     }
     _startGame(){
         this.gameState = "run";
-        console.log(printer._getCurrentTime()+"Start Game");
+        console.log(printer._getCurrentTime()+chalk.bold.green("Start Game"));
         //console.log(this.dino);
         if(this.dino.checkIfDead()){
             this._gameOver();
@@ -98,11 +99,11 @@ class Game{
     }
     _pauseGame(){
         this.gameState = "pause";
-        console.log(printer._getCurrentTime()+"Pause Game");
+        console.log(printer._getCurrentTime()+chalk.bold.green("Pause Game"));
     }
     _gameOver(){
         this.gameState = "game over";
-        console.log(`${printer._getCurrentTime()}${this.dino.name} ist gestorben!!!`);
+        console.log(`${printer._getCurrentTime()}${this.dino.name} ` + chalk.bold.red("ist gestorben !!!"));
         this._stopGame();
 
     }
@@ -110,7 +111,7 @@ class Game{
         if(this.autoSave){
             setInterval(()=>{
                 this._saveGame()
-                    .then((data)=>{console.log(printer._getCurrentTime()+"Auto Saved game");})
+                    .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellow("Auto Saved game"));})
                     .catch((err)=>{throw err;});
             },20000);
         }
@@ -122,7 +123,7 @@ class Game{
             .then((data)=> {
                 if(this.gameState==="run"){
                     this.dino[data.need]-=data.value;
-                    console.log(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
+                    console.log(chalk.red(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`));
                     this._saveEvent(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
                     printer._printGameState(this);
                     this._saveEvent(printer._getGameState(this));
@@ -133,7 +134,7 @@ class Game{
             else{
                 this._saveGame()
                     .then((data)=>{
-                        console.log(printer._getCurrentTime()+"Saved game");
+                        console.log(printer._getCurrentTime()+chalk.yellow("Saved game"));
                         this._gameOver();
                     })
                     .catch((err)=>{throw err;});
@@ -163,7 +164,7 @@ class Game{
         let time = currentTime;
         if(currentTime-time>30){
             this._saveGame()
-                .then((data)=>{console.log(printer._getCurrentTime()+"Auto Saved game");})
+                .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellow("Auto Saved game"));})
                 .catch((err)=>{throw err;});
         }
 

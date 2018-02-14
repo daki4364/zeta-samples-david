@@ -1,0 +1,19 @@
+{
+  "name": "tamagotchi",
+  "version": "1.0.0",
+  "description": "tamagotchi game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tamagotchi"
+  ],
+  "author": "daki4364",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.3.1",
+    "chalk-animation": "^1.4.0",
+    "cli-spinner": "^0.2.7"
+  }
+}

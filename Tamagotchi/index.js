@@ -11,7 +11,6 @@ process.argv.forEach((val, index) => {
         name = name[1];
     }
 });
-
 let game = new manager.Game(name+".json");
 process.stdin.setEncoding('utf8');
 const stdin = process.openStdin();

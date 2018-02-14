@@ -1,4 +1,5 @@
 const printer = require('./printer.js');
+const chalk = require('chalk');
 
 const INPUT_FEED = "H";
 const INPUT_DRINK = "D";
@@ -18,25 +19,31 @@ function _input(key,game){
     if(game.gameState==="run"){
         if(key===INPUT_FEED){
             game.dino._feed();
-            console.log(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
+            console.log(chalk.blue(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`));
             game._saveEvent(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
             printer._printGameState(game);
             game._saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_DRINK){
             game.dino._drink();
-            console.log(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`);
+            console.log(chalk.blue(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`));
+            game._saveEvent(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`);
             printer._printGameState(game);
+            game._saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_CLEAN){
             game.dino._clean();
-            console.log(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`);
+            console.log(chalk.blue(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`));
+            game._saveEvent(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`);
             printer._printGameState(game);
+            game._saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_HEAL){
             game.dino._heal();
-            console.log(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`);
+            console.log(chalk.blue(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`));
+            game._saveEvent(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`);
             printer._printGameState(game);
+            game._saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_PAUSE){
             game._pauseGame();
@@ -48,21 +55,21 @@ function _input(key,game){
         }
         else if(key===INPUT_SAVE){
             game._saveGame()
-                .then((data)=>console.log(printer._getCurrentTime()+"Saved game"))
+                .then((data)=>console.log(printer._getCurrentTime()+chalk.yellow("Saved game"))
                 .catch((err)=>{throw err;});
         }
         else if(key===INPUT_AUTO){
             game.autoSave = !game.autoSave;
-            console.log(printer._getCurrentTime()+"Auto save set to: "+game.autoSave);
+            console.log(printer._getCurrentTime()+chalk.yellow("Auto save set to: "+game.autoSave));
         }
     }
     else if(game.gameState==="stop")
     {
         if(key===INPUT_START){
-            game._startGame();
             if(game.dino.events.length !== 0){
                 console.log(...game.dino.events);
             }
+            game._startGame();
         }
     }
 }

@@ -1,6 +1,6 @@
 const dino = require('./dino.js');
+const printer = require('./printer.js');
 const fs = require("fs");
-
 
 class Game{
 
@@ -26,7 +26,7 @@ class Game{
     }
     _loadSaveFile(filePath){
         new Promise((resolve, reject)=>{
-            console.log(this._getCurrentTime()+"Load game file...");
+            console.log(printer._getCurrentTime()+"Load game file...");
             fs.readFile(filePath,(err, data) => {
                 if (err){
                     //console.log("loading file rejected");
@@ -37,12 +37,12 @@ class Game{
                     resolve(JSON.parse(data));
                 }
             })
-        }).then((data) => {this.dino.load(data); this._startGame()})
+        }).then((data) => {this.dino.load(data);this._startGame()})
             .catch((err)=> {throw err});
     }
     _createSaveFile(filePath,data){
         return new Promise((resolve, reject)=>{
-            console.log(this._getCurrentTime()+"Create new game file...");
+            console.log(printer._getCurrentTime()+"Create new game file...");
             fs.writeFile(filePath,data,(err) => {
                 if (err){
                     //console.log("create game file rejected");
@@ -58,7 +58,7 @@ class Game{
 
     _saveGame(){
         return new Promise((resolve, reject)=>{
-            console.log(this._getCurrentTime()+"Saving game...");
+            console.log(printer._getCurrentTime()+"Saving game...");
             fs.writeFile(this.filePath,this.dino.toJson(),(err) => {
                 if (err){
                     //console.log("saving game rejected");
@@ -73,12 +73,12 @@ class Game{
     }
     _stopGame(){
         this.gameState = "stop";
-        console.log(this._getCurrentTime()+"Stop Game");
+        console.log(printer._getCurrentTime()+"Stop Game");
         process.exit();
     }
     _startGame(){
         this.gameState = "run";
-        console.log(this._getCurrentTime()+"Start Game");
+        console.log(printer._getCurrentTime()+"Start Game");
         //console.log(this.dino);
         if(this.dino.checkIfDead()){
             this._gameOver();
@@ -89,11 +89,11 @@ class Game{
     }
     _pauseGame(){
         this.gameState = "pause";
-        process.stdout.write(this._getCurrentTime()+"Pause Game");
+        console.log(printer._getCurrentTime()+"Pause Game");
     }
     _gameOver(){
         this.gameState = "game over";
-        console.log(`${this._getCurrentTime()}${this.dino.name} ist gestorben!!!`);
+        console.log(`${printer._getCurrentTime()}${this.dino.name} ist gestorben!!!`);
         this._stopGame();
 
     }
@@ -101,22 +101,28 @@ class Game{
         if(this.gameState==="pause"){
             return;
         }
-        let index = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
-        this.dino[this.funcs[index]].call(this.dino).then((data)=> {
-            console.log(`${this._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data}%)`);
-            console.log(`${this._getCurrentTime()}${this.dino.name}: Hunger(${this.dino.hunger}%) | Durst(${this.dino.durst}%) | Sauberkeit(${this.dino.sauberkeit}%) | Gesundheit(${this.dino.gesundheit}%)`);
+        let index =Math.floor(Math.random() * (3 - 0 + 1)) + 0;
+        this.dino[this.funcs[index]].call(this.dino)
+            .then((data)=> {
+                if(this.gameState==="run"){
+                    this.dino[data.need]-=data.value;
+                    console.log(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
+                    printer._printGameState(this);
+                }
             if(this.dino.checkIfDead()===false){
                 this._gameLoop();
             }
             else{
                 this._saveGame()
                     .then((data)=>{
+                        console.log(printer._getCurrentTime()+"Saved game");
                         this._gameOver();
-                    });
+                    })
+                    .catch((err)=>{throw err;});
             }
-        });
-
+        }).catch((err)=> console.log(err));
     }
+
     _getCurrentNeed(index){
         if(index ===0){
             return " hat hunger!";
@@ -130,10 +136,6 @@ class Game{
         else{
             return " wird krank!";
         }
-    }
-    _getCurrentTime(){
-        let currentDate = new Date();
-        return `${currentDate.getDay()}.${currentDate.getMonth()} - ${currentDate.getHours()}:${currentDate.getSeconds()} - `;
     }
 }
 

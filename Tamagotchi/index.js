@@ -1,52 +1,23 @@
 const manager = require('./manager.js');
+const input = require('./input.js');
+const printer = require('./printer.js');
 
-const INPUT_FEED = "H";
-const INPUT_DRINK = "D";
-const INPUT_CLEAN = "S";
-const INPUT_HEAL = "G";
-const INPUT_SAVE = "O";
-const INPUT_PAUSE = "P";
-const INPUT_RESUME = "R";
-const INPUT_END= "E";
+const defaultName = "default_name";
 
+let name = defaultName;
 process.argv.forEach((val, index) => {
-    console.log(`${index}: ${val}`);
+    if(index ===2){
+        name = val.split("=");
+        name = name[1];
+        console.log(name);
+    }
 });
 
-let game = new manager.Game("davy.json");
+let game = new manager.Game(name+".json");
 process.stdin.setEncoding('utf8');
 const stdin = process.openStdin();
+printer._printGameInstructions(input);
 stdin.on('data', function(data) {
-    let input = data.toString().trim().toUpperCase();
-    if(input===INPUT_END){
-        game._stopGame();
-        stdin.removeAllListeners('data');
-
-    }
-    if(game.gameState==="run"){
-        if(input===INPUT_FEED){
-
-        }
-        else if(input===INPUT_DRINK){
-
-        }
-        else if(input===INPUT_CLEAN){
-
-        }
-        else if(input===INPUT_HEAL){
-
-        }
-        else if(input===INPUT_PAUSE){
-            game._pauseGame();
-        }
-    }
-    else if(game.gameState==="pause"){
-        if(input===INPUT_RESUME){
-            game._startGame();
-        }
-        else if(input===INPUT_SAVE){
-            game._saveGame();
-        }
-    }
-
+    let key = data.toString().trim().toUpperCase();
+    input._input(key,game);
 });

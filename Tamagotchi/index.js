@@ -16,16 +16,12 @@ process.argv.forEach((val, index) => {
 let game = new manager.Game("davy.json");
 process.stdin.setEncoding('utf8');
 const stdin = process.openStdin();
-
-stdin.addListener('data', function(data) {
+stdin.on('data', function(data) {
     let input = data.toString().trim().toUpperCase();
     if(input===INPUT_END){
         game._stopGame();
         stdin.removeAllListeners('data');
 
-    }
-    else if(input===INPUT_SAVE){
-        game._saveGame();
     }
     if(game.gameState==="run"){
         if(input===INPUT_FEED){
@@ -48,7 +44,9 @@ stdin.addListener('data', function(data) {
         if(input===INPUT_RESUME){
             game._startGame();
         }
+        else if(input===INPUT_SAVE){
+            game._saveGame();
+        }
     }
+
 });
-
-

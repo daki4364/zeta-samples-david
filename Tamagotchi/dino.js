@@ -17,7 +17,7 @@ class Dino{
         this.gesundheit = data.gesundheit;
         this.events = data.events;
     }
-    _getsThirsty(){
+    getsThirsty(){
         let need=Math.floor(Math.random() * (50 - 10 + 1)) + 10;
         return new Promise((resolve, reject)=>{
             //this.durst-=need;
@@ -26,7 +26,7 @@ class Dino{
             },need*100);
         });
     }
-    _getsSick(){
+    getsSick(){
         let need=Math.floor(Math.random() * (50 - 10 + 1)) + 10;
         return new Promise((resolve, reject)=>{
             //console.log("getsSick");
@@ -36,7 +36,7 @@ class Dino{
             },need*100);
         });
     }
-    _getsDirty(){
+    getsDirty(){
         let need=Math.floor(Math.random() * (50 - 10 + 1)) + 10;
         return new Promise((resolve, reject)=>{
             //console.log("getsDirty");
@@ -47,7 +47,7 @@ class Dino{
 
         });
     }
-    _getsHungry(){
+    getsHungry(){
         let need=Math.floor(Math.random() * (50 - 10 + 1)) + 10;
         return new Promise((resolve, reject)=>{
             //console.log("getsHungry");

@@ -7,7 +7,7 @@ class Game{
 
     constructor(filePath){
         this.autoSave = false;
-        this.funcs = ["_getsHungry","_getsThirsty","_getsDirty","_getsSick"];
+        this.funcs = ["getsHungry","getsThirsty","getsDirty","getsSick"];
         this.gameState = "stop";
         this.filePath = filePath.toLowerCase();
         this.dino = new dino.Dino(this.filePath.split('.')[0]);
@@ -66,7 +66,7 @@ class Game{
         });
     }
 
-    _saveGame(){
+    saveGame(){
         return new Promise((resolve, reject)=>{
             console.log(printer._getCurrentTime()+chalk.yellowBright("Saving game..."));
             fs.writeFile(this.filePath,this.dino.toJson(),(err) => {
@@ -111,7 +111,7 @@ class Game{
     _gameLoop(){
         if(this.autoSave){
             setInterval(()=>{
-                this._saveGame()
+                this.saveGame()
                     .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellowBright("Auto Saved game"));})
                     .catch((err)=>{throw err;});
             },20000);
@@ -125,15 +125,15 @@ class Game{
                 if(this.gameState==="run"){
                     this.dino[data.need]-=data.value;
                     console.log(chalk.red(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`));
-                    this._saveEvent(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
+                    this.saveEvent(`${printer._getCurrentTime()}${this.dino.name}${this._getCurrentNeed(index)} (-${data.value}%)`);
                     printer._printGameState(this);
-                    this._saveEvent(printer._getGameState(this));
+                    this.saveEvent(printer._getGameState(this));
                 }
             if(this.dino.checkIfDead()===false){
                 this._gameLoop();
             }
             else{
-                this._saveGame()
+                this.saveGame()
                     .then((data)=>{
                         console.log(printer._getCurrentTime()+chalk.yellowBright("Saved game"));
                         this._gameOver();
@@ -157,18 +157,9 @@ class Game{
             return " wird krank!";
         }
     }
-    _saveEvent(event){
+    saveEvent(event){
         this.dino.events.push("\n"+event);
         //console.log(this.dino.events);
-    }
-    _autoSave(currentTime){
-        let time = currentTime;
-        if(currentTime-time>30){
-            this._saveGame()
-                .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellowBright("Auto Saved game"));})
-                .catch((err)=>{throw err;});
-        }
-
     }
 }
 

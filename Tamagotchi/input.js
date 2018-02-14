@@ -12,7 +12,7 @@ const INPUT_START = "START";
 const INPUT_END= "EXIT";
 const INPUT_AUTO= "AUTO";
 
-function _input(key,game){
+function keyboardInput(key,game){
     if(key===INPUT_END){
         game._stopGame();
     }
@@ -20,30 +20,30 @@ function _input(key,game){
         if(key===INPUT_FEED){
             game.dino._feed();
             console.log(chalk.blue(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`));
-            game._saveEvent(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
+            game.saveEvent(`${printer._getCurrentTime()}Spieler füttert ${game.dino.name}`);
             printer._printGameState(game);
-            game._saveEvent(printer._getGameState(game));
+            game.saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_DRINK){
             game.dino._drink();
             console.log(chalk.blue(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`));
-            game._saveEvent(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`);
+            game.saveEvent(`${printer._getCurrentTime()}Spieler tränkt ${game.dino.name}`);
             printer._printGameState(game);
-            game._saveEvent(printer._getGameState(game));
+            game.saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_CLEAN){
             game.dino._clean();
             console.log(chalk.blue(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`));
-            game._saveEvent(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`);
+            game.saveEvent(`${printer._getCurrentTime()}Spieler putzt ${game.dino.name}`);
             printer._printGameState(game);
-            game._saveEvent(printer._getGameState(game));
+            game.saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_HEAL){
             game.dino._heal();
             console.log(chalk.blue(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`));
-            game._saveEvent(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`);
+            game.saveEvent(`${printer._getCurrentTime()}Spieler heilt ${game.dino.name}`);
             printer._printGameState(game);
-            game._saveEvent(printer._getGameState(game));
+            game.saveEvent(printer._getGameState(game));
         }
         else if(key===INPUT_PAUSE){
             game._pauseGame();
@@ -54,7 +54,7 @@ function _input(key,game){
             game._startGame();
         }
         else if(key===INPUT_SAVE){
-            game._saveGame()
+            game.saveGame()
                 .then((data)=>console.log(printer._getCurrentTime()+chalk.yellowBright("Saved game")))
                 .catch((err)=>{throw err;});
         }
@@ -74,7 +74,7 @@ function _input(key,game){
     }
 }
 
-module.exports._input = _input;
+module.exports.keyboardInput = keyboardInput;
 module.exports.INPUT_FEED = INPUT_FEED;
 module.exports.INPUT_DRINK = INPUT_DRINK;
 module.exports.INPUT_CLEAN = INPUT_CLEAN;

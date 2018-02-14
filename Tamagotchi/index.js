@@ -18,5 +18,5 @@ printer._printGameInstructions(input);
 printer.printTamagotchiWink();
 stdin.on('data', function(data) {
     let key = data.toString().trim().toUpperCase();
-    input._input(key,game);
+    input.keyboardInput(key,game);
 });

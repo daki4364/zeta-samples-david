@@ -55,12 +55,12 @@ function _input(key,game){
         }
         else if(key===INPUT_SAVE){
             game._saveGame()
-                .then((data)=>console.log(printer._getCurrentTime()+chalk.yellow("Saved game"))
+                .then((data)=>console.log(printer._getCurrentTime()+chalk.yellowBright("Saved game")))
                 .catch((err)=>{throw err;});
         }
         else if(key===INPUT_AUTO){
             game.autoSave = !game.autoSave;
-            console.log(printer._getCurrentTime()+chalk.yellow("Auto save set to: "+game.autoSave));
+            console.log(printer._getCurrentTime()+chalk.yellowBright("Auto save set to: "+game.autoSave));
         }
     }
     else if(game.gameState==="stop")

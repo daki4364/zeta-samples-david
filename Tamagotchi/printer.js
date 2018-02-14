@@ -28,10 +28,38 @@ CAUTION: Your game will not be safed!
 ####################################`));
 }
 function printTamagotchiWink(){
-
+    console.log(chalk.bold.yellowBright(`
+                                                
+--.--                       |         |    o
+  |,---.,-.-.,---.,---.,---.|--- ,---.|---..
+  |,---|| | |,---||   ||   ||    |    |   ||
+  \`\`---^\` ' '\`---^\`---|\`---'\`---'\`---'\`   '\`
+                  \`---'                                                  
+    `));
+}
+function printTamagotchiDeath(){
+    console.log(chalk.bold.redBright(`
+     	
+   _                   _
+ _( )                 ( )_
+(_, |      __ __      | ,_)
+   \\'\\    /  ^  \\    /'/
+    '\\'\\,/\\      \\,/'/'
+      '\\| []   [] |/'
+        (_  /^\\  _)
+          \\  ~  /
+          /HHHHH\\
+        /'/{^^^}\\'\\
+    _,/'/'  ^^^  '\\'\\,_
+   (_, |           | ,_)
+     (_)           (_)
+                                                 
+    `));
 }
 module.exports._printGameState = _printGameState;
 module.exports._getCurrentTime = _getCurrentTime;
 module.exports._printGameInstructions = _printGameInstructions;
 module.exports._getGameState = _getGameState;
 module.exports._getCurrentSeconds = _getCurrentSeconds;
+module.exports.printTamagotchiWink = printTamagotchiWink;
+module.exports.printTamagotchiDeath = printTamagotchiDeath;

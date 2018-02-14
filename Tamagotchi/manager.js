@@ -68,7 +68,7 @@ class Game{
 
     _saveGame(){
         return new Promise((resolve, reject)=>{
-            console.log(printer._getCurrentTime()+chalk.yellow("Saving game..."));
+            console.log(printer._getCurrentTime()+chalk.yellowBright("Saving game..."));
             fs.writeFile(this.filePath,this.dino.toJson(),(err) => {
                 if (err){
                     //console.log("saving game rejected");
@@ -104,6 +104,7 @@ class Game{
     _gameOver(){
         this.gameState = "game over";
         console.log(`${printer._getCurrentTime()}${this.dino.name} ` + chalk.bold.red("ist gestorben !!!"));
+        printer.printTamagotchiDeath();
         this._stopGame();
 
     }
@@ -111,7 +112,7 @@ class Game{
         if(this.autoSave){
             setInterval(()=>{
                 this._saveGame()
-                    .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellow("Auto Saved game"));})
+                    .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellowBright("Auto Saved game"));})
                     .catch((err)=>{throw err;});
             },20000);
         }
@@ -134,7 +135,7 @@ class Game{
             else{
                 this._saveGame()
                     .then((data)=>{
-                        console.log(printer._getCurrentTime()+chalk.yellow("Saved game"));
+                        console.log(printer._getCurrentTime()+chalk.yellowBright("Saved game"));
                         this._gameOver();
                     })
                     .catch((err)=>{throw err;});
@@ -164,7 +165,7 @@ class Game{
         let time = currentTime;
         if(currentTime-time>30){
             this._saveGame()
-                .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellow("Auto Saved game"));})
+                .then((data)=>{console.log(printer._getCurrentTime()+chalk.yellowBright("Auto Saved game"));})
                 .catch((err)=>{throw err;});
         }
 

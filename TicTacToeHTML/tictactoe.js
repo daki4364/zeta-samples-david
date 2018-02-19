@@ -3,11 +3,14 @@ import gameToPage from "./gameToPage.js";
 export default class Game{
 
     constructor(tttRootElement){
-        this.gameToPage = new gameToPage(tttRootElement);
+        console.log("Create Game in Script");
+        this.gameToPage = new gameToPage(tttRootElement, this);
         this.gameToPage.setupNewGame();
+        this.initNewGame();
     }
 
     initNewGame(){
+        console.log("Reset Game in Script");
         this.players=["Player1", "Player2"];
         this.gameStates =["open", "player1won", "player2won", "draw"];
         this.winCombos = [
@@ -23,9 +26,11 @@ export default class Game{
         this.field = Array.from(Array(9).keys());
         this.currentPlayer = this.players[0];
         this.currentState = this.gameStates[0];
+        this.gameToPage.resetGame();
     }
 
     act(index){
+        console.log(index);
         if(this.field[index]===this.players[0] || this.field[index]===this.players[1] ||this.currentState !== this.gameStates[0] || index > this.field.length-1){
             console.log(`${this.currentPlayer} cannot tick at ${index} Tick somewhere else!`);
             return false;
@@ -33,6 +38,12 @@ export default class Game{
         else{
             console.log(`${this.currentPlayer} ticked at ${index}`);
             this.field[index] = this.currentPlayer;
+            if(this.currentPlayer === this.players[0]){
+                this.gameToPage.setCross(index);
+            }
+            else{
+                this.gameToPage.setCircle(index);
+            }
             this._checkWin(this.field, this.currentPlayer);
             this.currentPlayer = this.currentPlayer===this.players[0] ? this.players[1] : this.players[0];
             return true;

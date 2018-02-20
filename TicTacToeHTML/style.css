@@ -18,11 +18,24 @@ html, body{
 }
 button{
     grid-area: button;
-    box-shadow: .5vmin 15vmin #888888;
     border-radius:2vmin;
     font-size:5vmin;
     height: 10vmin;
     margin: 5vmin 10vmin;
+}
+input{
+    grid-area: input;
+    height: 3vmin;
+    width: 3vmin;
+    min-width: 3vmin;
+    min-height: 3vmin;
+    margin: 3.3vmin 14vmin;
+}
+h2{
+    grid-area: text;
+    font-size:3vmin;
+    margin: 3vmin 0;
+    color: white;
 }
 .grid__content--cross-small{
     height: 100%;
@@ -111,14 +124,15 @@ button{
     overflow:hidden;
     display:grid;
     grid-template-columns: 20vmin 20vmin 20vmin;
-    grid-template-rows: 20vmin 20vmin 20vmin 15vmin;
+    grid-template-rows: 20vmin 20vmin 20vmin 15vmin 10vmin;
     grid-template-areas:
             "first-first first-second first-third"
             "second-first second-second second-third"
             "third-first third-second third-third"
-            " button button button ";
+            " button button button "
+            "input text text";
     width:60vmin;
-    height:75vmin;
+    height:85vmin;
     position:relative;
     margin:8vmin;
 }

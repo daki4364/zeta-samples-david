@@ -16,6 +16,9 @@ function createGame(){
     });
     function click(payload){
         game.act(parseInt(payload.target.id));
+        if(game.gameToPage.checkBoxElement.checked){
+            game.kiAct();
+        }
     }
 }
 

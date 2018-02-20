@@ -19,6 +19,8 @@ export default class gameToPage{
                                         document.createElement("div"), document.createElement("div"),document.createElement("div"),
                                         document.createElement("div"),document.createElement("div"),document.createElement("div")];
         this.buttonElement = document.createElement("button");
+        this.checkBoxElement = document.createElement("input");
+        this.checkBoxTextElement = document.createElement("h2");
     }
 
     setupNewGame(){
@@ -40,9 +42,13 @@ export default class gameToPage{
         this.buttonElement.onclick = ()=>{
             this.game.initNewGame();
         };
+        this.checkBoxElement.type = "checkbox";
+        this.checkBoxTextElement.innerHTML= "Play Against AI";
+        this.gridElement.appendChild(this.checkBoxElement);
+        this.gridElement.appendChild(this.checkBoxTextElement);
         //Append button to root element
         //this.tttRootElement.appendChild(this.buttonElement);
-        //this.gridElement.innerHTML = "<button onClick='initNewGame()'>New Game</button>";
+        //this.gridElement.innerHTML = "<input type='checkbox' value='Play against AI'>";
     }
 
     setCross(index){

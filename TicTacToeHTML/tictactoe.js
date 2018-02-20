@@ -46,6 +46,7 @@ export default class Game{
             }
             this._checkWin(this.field, this.currentPlayer);
             this.currentPlayer = this.currentPlayer===this.players[0] ? this.players[1] : this.players[0];
+            this._printGameState();
             return true;
         }
     }
@@ -138,7 +139,6 @@ export default class Game{
     }
     _checkWin(field, player){
         let gameWon = false;
-
         if(field.every(elem => elem===this.players[0] || elem===this.players[1]))
         {
 
@@ -146,14 +146,24 @@ export default class Game{
         }
         else
         {
-
             let ticks = field.reduce((result,element,index) =>
                 (element===player) ? result.concat(index) : result, []);
             //console.log(...ticks);
             for(let [index, win] of this.winCombos.entries()){
                 if(win.every(elem => ticks.indexOf(elem) > -1))
                 {
+                    console.log("Win Combos"+win);
                     this.currentState = player===this.players[0] ? this.gameStates[1] : this.gameStates[2];
+                    win.forEach(index =>{
+                        this.gameToPage.setHighlight(index);
+                        if(this.currentState === this.gameStates[1]){
+                            this.gameToPage.setBigCross(index);
+                        }
+                        else if(this.currentState === this.gameStates[2]){
+                            this.gameToPage.setBigCircle(index);
+                        }
+                    });
+
                     gameWon = true;
                 }
             }

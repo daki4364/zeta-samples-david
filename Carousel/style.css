@@ -1,0 +1,78 @@
+html, body{
+    background-color:#131339;
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    border:0;
+    box-sizing: content-box;
+}
+.container{
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width:100%;
+    height:100%;
+}
+.window{
+    position:relative;
+    background: white;
+    border: .5vmin solid dimgrey;
+    border-radius: .5vmin;
+    overflow:hidden;
+    margin: 2vmin;
+}
+.buttonLeft{
+    position: absolute;
+    background-color: lightgrey;
+    opacity: .4;
+    width: 8%;
+    height: 100%;
+    left:0;
+    transition: opacity .6s;
+}
+.buttonLeft::after{
+    content:'';
+    position:absolute;
+    top:40%;
+    left: 25%;
+    border-right: 3vmin solid red;
+    border-bottom: 3vmin solid transparent;
+    border-top: 3vmin solid transparent;
+}
+.buttonRight{
+    position: absolute;
+    background-color: lightgrey;
+    opacity: .4;
+    width: 8%;
+    height: 100%;
+    right:0;
+    transition: opacity .6s;
+}
+.buttonRight::after{
+    content:'';
+    position:absolute;
+    top:40%;
+    right: 25%;
+    border-left: 3vmin solid red;
+    border-bottom: 3vmin solid transparent;
+    border-top: 3vmin solid transparent;
+}
+.buttonRight:hover,
+.buttonLeft:hover{
+    opacity: .8;
+}
+.pictureStripe{
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+    left:0;
+}
+#fadeOut{
+    opacity: 0;
+    transition: opacity .5s;
+}

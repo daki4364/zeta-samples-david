@@ -2,33 +2,62 @@ import CarouselUi from './carouselUi.js';
 
 class Carousel {
 
-    constructor(rootElement, pictures){
+    constructor(rootElement, pictures, draggable){
         this.ui = new CarouselUi(rootElement,pictures,80, 40);
+        this.draggable = draggable;
     }
 
     setup(){
         this.ui.setup();
+
+        if(this.draggable){
+            this.ui.window.setAttribute('draggable', true);
+            this.ui.window.addEventListener('dragend', this.drop.bind(this));
+            this.ui.window.addEventListener('dragstart', this.drag.bind(this));
+            this.ui.buttonRight.visible = false;
+        }
+        else{
+            this.ui.buttonLeft.element.addEventListener('click', this.click.bind(this), false);
+            this.ui.buttonRight.element.addEventListener('click', this.click.bind(this), false);
+        }
         this.ui.checkButtons();
-        this.ui.buttonLeft.element.addEventListener('click', this.click.bind(this), false);
-        this.ui.buttonRight.element.addEventListener('click', this.click.bind(this), false);
+
+
     }
 
     click(payload){
         if(payload.target.className === 'buttonRight'){
-            console.log("move pics to left");
             this.ui.movePicture('left');
         }
         if(payload.target.className === 'buttonLeft'){
-            console.log("move pics to right");
             this.ui.movePicture('right');
         }
         this.ui.checkButtons();
     }
 
+    drop(payload){
+        if(payload.offsetX >= parseInt(this.ui.window.getBoundingClientRect().width)){
+            if(this.ui.picIndex>0){
+                this.ui.movePicture('right');
+            }
+
+        }
+        else if(payload.offsetX <= 0){
+            if(this.ui.picIndex<this.ui.pictures.length-1){
+                this.ui.movePicture('left');
+            }
+
+        }
+
+    }
+    drag(payload){
+        let dragIcon = document.createElement('img');
+        payload.dataTransfer.setDragImage(dragIcon,-10,-10);
+    }
 }
 
-let car = new Carousel(document.querySelector('.container'), ["./res/guitar1.jpg","./res/guitar2.jpg","./res/guitar3.jpg","./res/guitar4.jpg"]);
+let car = new Carousel(document.querySelector('.container'), ["./res/guitar1.jpg","./res/guitar2.jpg","./res/guitar3.jpg","./res/guitar4.jpg"],false);
 car.setup();
-let car2 = new Carousel(document.querySelector('.container'), ["./res/guitar1.jpg","./res/guitar2.jpg","./res/guitar3.jpg","./res/guitar4.jpg"]);
-car2.setup();
 
+let car2 = new Carousel(document.querySelector('.container'), ["./res/guitar1.jpg","./res/guitar2.jpg","./res/guitar3.jpg","./res/guitar4.jpg"],true);
+car2.setup();

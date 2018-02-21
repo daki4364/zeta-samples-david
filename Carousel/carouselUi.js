@@ -79,7 +79,6 @@ export default class CarouselUi {
             this.buttonRight.visible = true;
             this.buttonLeft.visible = true;
         }
-        console.log(this.picIndex);
 
 
 

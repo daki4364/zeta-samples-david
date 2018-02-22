@@ -11,9 +11,10 @@ class Carousel {
         this.ui.setup();
 
         if(this.draggable){
-            this.ui.window.setAttribute('draggable', true);
-            this.ui.window.addEventListener('dragend', this.drop.bind(this));
-            this.ui.window.addEventListener('dragstart', this.drag.bind(this));
+            //this.ui.window.setAttribute('draggable', true);
+
+            this.ui.window.addEventListener('pointerup', this.drop.bind(this));
+            this.ui.window.addEventListener('pointerdown', this.drag.bind(this));
             this.ui.buttonRight.visible = false;
         }
         else{
@@ -36,6 +37,7 @@ class Carousel {
     }
 
     drop(payload){
+        //console.log(payload.movementX);
         if(payload.offsetX >= parseInt(this.ui.window.getBoundingClientRect().width)){
             if(this.ui.picIndex>0){
                 this.ui.movePicture('right');
@@ -51,8 +53,10 @@ class Carousel {
 
     }
     drag(payload){
-        let dragIcon = document.createElement('img');
-        payload.dataTransfer.setDragImage(dragIcon,-10,-10);
+        this.ui.window.setPointerCapture(payload.pointerId);
+        //console.log(payload);
+        //let dragIcon = document.createElement('img');
+        //payload.dataTransfer.setDragImage(dragIcon,-10,-10);
     }
 }
 

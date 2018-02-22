@@ -24,6 +24,7 @@ html, body{
     border-radius: .5vmin;
     overflow:hidden;
     margin: 2vmin;
+
 }
 .buttonLeft{
     position: absolute;

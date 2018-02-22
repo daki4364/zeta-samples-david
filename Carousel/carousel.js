@@ -15,11 +15,15 @@ class Carousel {
 
             this.ui.window.addEventListener('pointerup', this.drop.bind(this));
             this.ui.window.addEventListener('pointerdown', this.drag.bind(this));
+            this.ui.window.addEventListener('pointercancel', function () {
+                console.log("cancel");
+            });
             this.ui.buttonRight.visible = false;
         }
         else{
             this.ui.buttonLeft.element.addEventListener('click', this.click.bind(this), false);
             this.ui.buttonRight.element.addEventListener('click', this.click.bind(this), false);
+
         }
         this.ui.checkButtons();
 
@@ -37,7 +41,8 @@ class Carousel {
     }
 
     drop(payload){
-        //console.log(payload.movementX);
+        payload.preventDefault();
+        console.log(payload.offsetX);
         if(payload.offsetX >= parseInt(this.ui.window.getBoundingClientRect().width)){
             if(this.ui.picIndex>0){
                 this.ui.movePicture('right');
@@ -54,7 +59,8 @@ class Carousel {
     }
     drag(payload){
         this.ui.window.setPointerCapture(payload.pointerId);
-        //console.log(payload);
+        payload.preventDefault();
+        console.log(payload.pointerId);
         //let dragIcon = document.createElement('img');
         //payload.dataTransfer.setDragImage(dragIcon,-10,-10);
     }

@@ -1,0 +1,36 @@
+*{
+    box-sizing: border-box;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+html, body{
+    background-color:#131339;
+    width:100%;
+    height:100%;
+}
+.container{;
+    width:80vmin;
+    height:80vmin;
+}
+.circle{
+    width: 100%;
+    height: 100%;
+    border-radius:50%;
+    padding:5vmin;
+
+}
+.circle__light{
+    background-color: red;
+}
+.circle__dark{
+    background-color: blue;
+}
+.circle--bubble{
+    background-color: white;
+}
+.circle--capture{
+    background-color: grey;
+}

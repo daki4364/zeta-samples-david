@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+@keyframes blink{
+    0%{opacity: 1}
+    50%{opacity: 0}
+    100%{opacity: 1}
+}
+*{
+    box-sizing: border-box;
+    font-size: 5vmin;
+    font-family: 'VT323' ;
+}
+html, body{
+    background-color:#131339;
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    border:0;
+}
+.container{
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width:100%;
+    height:100%;
+}
+.game{
+    position:relative;
+    display: grid;
+    grid-template-columns: 1.2fr 1.6fr 1.2fr;
+    grid-template-rows: .8fr 2fr .8fr;
+    grid-template-areas:    "state result restart"
+                            "content content content"
+                            "keyboard keyboard keyboard";
+    width: 80vmin;
+    height: 60vmin;
+    background-color: white;
+    margin: 2vmin;
+}
+.area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.area__state{
+    border-bottom: .3vmin solid black;
+    border-right: .3vmin solid black;
+    margin:2vmin 0 0 2vmin;
+
+}
+.area__result{
+    grid-area: result;
+    border-bottom: .3vmin solid black;
+    margin-top: 2vmin;
+}
+.area__keyboard{
+    grid-area: keyboard;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border:.1vmin solid black;
+    margin:0 2vmin 2vmin 2vmin;
+}
+.area__content{
+    grid-area: content;
+}
+.area__text{
+    text-align: center;
+}
+.area__text--blink{
+    font-weight: bold;
+    animation: blink .6s infinite;
+}
+.button__restart{
+    grid-area: restart;
+    border-bottom: .3vmin solid black;
+    border-left: .3vmin solid black;
+    margin:2vmin 2vmin 0 0;
+}
+.button__key{
+    border:.1vmin solid black;
+    width:5.8vmin;
+    padding:.2vmin;
+    flex-grow:1;
+    text-align: center;
+}
+.button--disabled{
+    color: rgba(0,0,0,.2);
+
+}
+.button:hover{
+    background-color: lightgrey;
+}

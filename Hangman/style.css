@@ -89,6 +89,7 @@ html, body{
 }
 .button--disabled{
     color: rgba(0,0,0,.2);
+    pointer-events: none;
 
 }
 .button:hover{

@@ -8,10 +8,11 @@ export default class Game{
 
     constructor(rootElement){
         this.rootElement = rootElement;
-        this.database = ["Text","Axt","Dettelbach", "Gitarre"];
+        this.database = 'http://krautipsum.com/api/noun';
         this.currentWord = "";
         this.currentTries = 0;
         this.gameState = 'open';
+        this.focused = false;
         this.game = document.createElement('div');
         this.stateArea = document.createElement('div');
         this.stateAreaText = document.createElement('div');
@@ -22,7 +23,6 @@ export default class Game{
     }
 
     start(){
-        //this.loadDatabase('database.json');
         this.keyboard.init();
         this.restartButton.innerHTML = 'New Game';
 
@@ -58,24 +58,27 @@ export default class Game{
         this.game.appendChild(this.keyboard.keyboard);
 
         this.rootElement.appendChild(this.game);
+
+        this.game.onmouseover = ()=>{this.focused = true};
+        this.game.onmouseleave = ()=>{this.focused = false};
         this.initNewGame();
     }
 
     initNewGame(){
+        this.keyboard.removeAllListeners();
         this.gameState = 'open';
         this.keyboard.reset();
         this.stateAreaText.innerHTML = 'Active Game';
         this.stateAreaText.style.color = 'black';
         this.stateAreaText.classList.remove('area__text--blink');
-
         this.currentTries = 0;
         this.updateResult();
-        this.initContent(Math.floor(Math.random() * (this.database.length-1)) + 0 );
+        this.loadDatabase(this.database);
     }
 
-    initContent(wordIndex) {
-        this.currentWord = this.database[wordIndex].toUpperCase();
+    initContent() {
         this.contentArea.innerHTML = '_ '.repeat(this.currentWord.length);
+        //console.log(this.currentWord);
     }
 
     replaceLetter(letter){
@@ -92,7 +95,7 @@ export default class Game{
             indices.forEach(i =>{
                 let oldWord = this.contentArea.innerText.replace( /\s/g, "");
                 this.contentArea.innerText = oldWord.replaceAt(i,letter).split('').join(' ');
-                console.log(oldWord);
+                //console.log(oldWord);
             });
         }
         else{
@@ -137,21 +140,47 @@ export default class Game{
     }
 
     loadDatabase(filePath){
-        new Promise((resolve, reject)=>{
-            fs.readFile(filePath,(err, data) => {
-                if (err){
-                    //console.log("loading file rejected");
-                    reject(err);
-                }
-                else {
-                    //console.log("loading file resolved");
-                    resolve(JSON.parse(data));
-                }
+        fetch(filePath)
+            .then(data => data.json())
+            .then((data)=>{
+                this.currentWord = this.prepareData(data.noun);
+                this.initContent();
             })
-        }).then((data) => {
-            this.database = data.words;
-            console.log(this.database);
-        })
-            .catch((err)=> {throw err});
+            .catch(err => {throw err});
+    }
+
+    prepareData(data){
+        let word = data.toUpperCase().split('').join(' ');
+        if(word.indexOf('Ä')>=0){
+            let indices = [];
+            for(let i = 0; i< word.length; i++){
+                if(word[i] === 'Ä')
+                {
+                    indices.push(i);
+                }
+            }
+            indices.forEach(i =>{word = word.replaceAt(i,'AE');});
+        }
+        if(word.indexOf('Ü')>=0){
+            let indices = [];
+            for(let i = 0; i< word.length; i++){
+                if(word[i] === 'Ü')
+                {
+                    indices.push(i);
+                }
+            }
+            indices.forEach(i =>{word = word.replaceAt(i,'UE');});
+        }
+        if(word.indexOf('Ö')>=0){
+            let indices = [];
+            for(let i = 0; i< word.length; i++){
+                if(word[i] === 'Ö')
+                {
+                    indices.push(i);
+                }
+            }
+            indices.forEach(i =>{word = word.replaceAt(i,'OE');});
+        }
+        return word.replace( /\s/g, "")+"";
     }
 }

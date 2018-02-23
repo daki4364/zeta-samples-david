@@ -4,10 +4,19 @@
     50%{opacity: 0}
     100%{opacity: 1}
 }
+@keyframes shake{
+    0%{transform: translate3D(0,0,0);}
+    20%{transform: translate3D(1%,1%,0);}
+    40%{transform: translate3D(-1%,-1%,0);}
+    60%{transform: translate3D(1%,-1%,0);}
+    80%{transform: translate3D(-1%,1%,0);}
+    100%{transform: translate3D(0,0,0);}
+}
 *{
     box-sizing: border-box;
-    font-size: 5vmin;
+    font-size: 6vmin;
     font-family: 'VT323' ;
+    color: white;
 }
 html, body{
     background-color:#131339;
@@ -37,43 +46,60 @@ html, body{
                             "keyboard keyboard keyboard";
     width: 80vmin;
     height: 60vmin;
-    background-color: white;
+    background-image: url(./res/background.jpg);
+    background-size: cover;
+    background-position-x: 45% ;
     margin: 2vmin;
+    z-index: 0;
+
 }
+.game--fail{
+    animation: shake .2s forwards ease-in-out;
+}
+.area__fail{
+     position: absolute;
+    background-color: red ;
+    opacity: 0;
+     width:100%;
+     height:100%;
+    pointer-events: none;
+    z-index: -1;
+ }
 .area{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 1vmin;
 }
 .area__state{
-    border-bottom: .3vmin solid black;
-    border-right: .3vmin solid black;
-    margin:2vmin 0 0 2vmin;
+    border-bottom: .3vmin solid white;
+    border-right: .3vmin solid white;
+    margin:1vmin 0 0 1vmin;
 
 }
 .area__result{
     grid-area: result;
-    border-bottom: .3vmin solid black;
-    margin-top: 2vmin;
+    border-bottom: .3vmin solid white;
+    margin-top: 1vmin;
 }
 .area__keyboard{
     grid-area: keyboard;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    border:.1vmin solid black;
-    margin:0 2vmin 2vmin 2vmin;
+    margin:0 1vmin 1vmin 1vmin;
 }
 .area__content{
     grid-area: content;
+    color: yellow;
 }
 .area__content::after{
     position: absolute;
     content: 'HOVER OVER GAME AREA TO USE KEYBOARD INPUT';
     font-size: 3vmin;
-    bottom: 23%;
+    bottom: 24%;
     left: 18.5%;
-    color: blue;
+    color: yellow;
 
 }
 .area__text{
@@ -85,22 +111,22 @@ html, body{
 }
 .button__restart{
     grid-area: restart;
-    border-bottom: .3vmin solid black;
-    border-left: .3vmin solid black;
-    margin:2vmin 2vmin 0 0;
+    border-bottom: .3vmin solid white;
+    border-left: .3vmin solid white;
+    margin:1vmin 1vmin 0 0;
 }
 .button__key{
-    border:.1vmin solid black;
     width:5.8vmin;
     padding:.2vmin;
     flex-grow:1;
     text-align: center;
 }
 .button--disabled{
-    color: rgba(0,0,0,.2);
+    color: dimgrey;
     pointer-events: none;
 
 }
 .button:hover{
-    background-color: lightgrey;
+    color: yellow;
+    font-weight: bold;
 }

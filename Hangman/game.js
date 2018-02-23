@@ -19,6 +19,7 @@ export default class Game{
         this.resultArea = document.createElement('div');
         this.restartButton = document.createElement('div');
         this.contentArea = document.createElement('div');
+        this.failArea = document.createElement('div');
         this.keyboard = new Keyboard(this);
     }
 
@@ -38,6 +39,8 @@ export default class Game{
 
         this.resultArea.classList.add('area__text');
 
+        this.failArea.classList.add('area__fail');
+
         this.restartButton.classList.add('area');
         this.restartButton.classList.add('area__text');
         this.restartButton.classList.add('button');
@@ -51,12 +54,13 @@ export default class Game{
 
         this.stateArea.appendChild(this.stateAreaText);
 
+
         this.game.appendChild(this.stateArea);
         this.game.appendChild(this.resultArea);
         this.game.appendChild(this.restartButton);
         this.game.appendChild(this.contentArea);
         this.game.appendChild(this.keyboard.keyboard);
-
+        this.game.appendChild(this.failArea);
         this.rootElement.appendChild(this.game);
 
         this.game.onmouseover = ()=>{this.focused = true};
@@ -69,7 +73,7 @@ export default class Game{
         this.gameState = 'open';
         this.keyboard.reset();
         this.stateAreaText.innerHTML = 'Active Game';
-        this.stateAreaText.style.color = 'black';
+        this.stateAreaText.style.color = 'white';
         this.stateAreaText.classList.remove('area__text--blink');
         this.currentTries = 0;
         this.updateResult();
@@ -122,7 +126,12 @@ export default class Game{
 
     updateResult(){
         this.resultArea.innerHTML = `Fails: ${this.currentTries}/10`;
-        this.resultArea.style.backgroundColor = `rgba(255,0,0,${this.currentTries/10})`;
+        this.failArea.style.opacity = `${this.currentTries/25}`;
+        if(this.currentTries>0){
+            this.game.classList.toggle('game--fail');
+            setTimeout(()=>{ this.game.classList.toggle('game--fail');},200);
+        }
+
     }
 
     setWin(){
@@ -133,7 +142,7 @@ export default class Game{
 
     setFail(){
         this.stateAreaText.innerHTML = 'Fail';
-        this.stateAreaText.style.color = 'red';
+        this.stateAreaText.style.color = 'yellow';
         this.stateAreaText.classList.add('area__text--blink');
 
     }

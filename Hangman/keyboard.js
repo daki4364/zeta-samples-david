@@ -25,7 +25,7 @@ export default class Keyboard{
     }
 
     keyboardInput(event){
-        console.log();
+
         if(this.game.focused && event.keyCode === 13){
             this.game.initNewGame();
         }
@@ -33,6 +33,7 @@ export default class Keyboard{
             (String.fromCharCode(event.keyCode).toUpperCase()).charCodeAt(0)>= 65 &&
             (String.fromCharCode(event.keyCode).toUpperCase()).charCodeAt(0)<=90 &&
             this.keys[(String.fromCharCode(event.keyCode).toUpperCase()).charCodeAt(0)-65].classList.value.indexOf('button--disabled')<0){
+            console.log(String.fromCharCode(event.keyCode).toUpperCase());
             this.game.replaceLetter(String.fromCharCode(event.keyCode));
             this.disableKey((String.fromCharCode(event.keyCode).toUpperCase()).charCodeAt(0));
         }
@@ -40,13 +41,13 @@ export default class Keyboard{
 
     click(event){
         console.log(String.fromCharCode(event.target.id));
-        console.log(event);
+        //console.log(event);
         this.game.replaceLetter(String.fromCharCode(event.target.id));
         this.disableKey(event.target.id);
     }
 
     removeAllListeners(){
-        console.log('remove listener');
+        //console.log('remove listener');
         this.keys.forEach(key =>{
             key.removeEventListener('click', this.listener, false);
             //key.removeEventListener('keypress', this.listener, false);
@@ -55,7 +56,6 @@ export default class Keyboard{
 
     disableKey(keyCode){
         document.getElementById(keyCode).removeEventListener('click', this.listener, false);
-        //document.getElementById(keyCode).removeEventListener('keypress', this.listener, false);
         document.getElementById(keyCode).classList.add('button--disabled');
 
     }

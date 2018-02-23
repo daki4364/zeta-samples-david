@@ -78,7 +78,7 @@ export default class Game{
 
     initContent() {
         this.contentArea.innerHTML = '_ '.repeat(this.currentWord.length);
-        //console.log(this.currentWord);
+        console.log(this.currentWord);
     }
 
     replaceLetter(letter){
@@ -91,7 +91,6 @@ export default class Game{
                     indices.push(i);
                 }
             }
-            console.log(indices);
             indices.forEach(i =>{
                 let oldWord = this.contentArea.innerText.replace( /\s/g, "");
                 this.contentArea.innerText = oldWord.replaceAt(i,letter).split('').join(' ');

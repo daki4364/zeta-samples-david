@@ -67,6 +67,15 @@ html, body{
 .area__content{
     grid-area: content;
 }
+.area__content::after{
+    position: absolute;
+    content: 'HOVER OVER GAME AREA TO USE KEYBOARD INPUT';
+    font-size: 3vmin;
+    bottom: 23%;
+    left: 18.5%;
+    color: blue;
+
+}
 .area__text{
     text-align: center;
 }

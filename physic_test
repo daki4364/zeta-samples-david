@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="index.js"></script>
+</head>
+<body>
+    <canvas class="canvas"></canvas>
+</body>
+
+</html>
+
+html,
+body{
+    margin:0;
+    padding:0;
+}
+canvas{
+    display:block;
+}
+
+import {Particle} from './particle.js';
+import {Vector} from './vector.js';
+import { Ship } from './ship.js';
+
+const gravity = new Vector(0,0.2);
+
+function random(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+window.onload = () =>{
+    let canvas = document.querySelector('canvas');
+    let context = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    //let ship = new Ship(width/2, height/2, 3, -30, gravity,20);
+    //let particles = Array.from(Array(1));
+    let p = new Particle(100,100,5,30,gravity,20,-.6,1);
+    //particles.forEach((particle, index) => { particles[index] = new Particle(0, height, 10, -45, gravity)});
+    update();
+
+    function update(){
+        context.clearRect(0,0,width,height);
+        p.move();
+        context.beginPath();
+        context.arc(p.position.getX(), p.position.getY(), p.radius, 0, Math.PI *2, false);
+        context.fill();
+
+        if(p.position.getX()+p.radius > width){
+            p.position.setX(width - p.radius);
+            p.velocity.setX(p.velocity.getX() * p.bounce);
+        }
+        if(p.position.getX()-p.radius<0){
+            p.position.setX(p.radius);
+            p.velocity.setX(p.velocity.getX() *  p.bounce);
+        }
+        if(p.position.getY()+p.radius > height){
+            p.position.setY(height - p.radius);
+            p.velocity.setY(p.velocity.getY() *  p.bounce);
+            p.friction = .99;
+        }
+        else{
+            p.friction = 1;
+        }
+        if(p.position.getY()-p.radius<0){
+            p.position.setY(p.radius);
+            p.velocity.setY(p.velocity.getY() *  p.bounce);
+            
+        }
+        //particles.forEach(p =>{});
+        //ship.update();
+        /**context.save();
+        context.translate(p.position.getX(), p.position.getY());
+        context.rotate(ship.rotation);
+        
+        context.moveTo(10,0);
+        context.lineTo(-10,-7);
+        context.lineTo(-10,7);
+        context.lineTo(10,0);
+        context.stroke();
+        context.restore();**/
+
+
+        requestAnimationFrame(update);
+    }
+};
+
+import {Vector} from './vector.js';
+
+export class Particle{
+
+    constructor(x, y, speed, direction, gravity, radius, bounce, friction){
+        this.position = new Vector(x,y);
+        this.velocity = new Vector(0,0);
+        this.velocity.setLength(speed);
+        this.velocity.setAngle(direction);
+        this.friction = friction<=1 && friction >= 0 ? friction : 0;
+        this.gravity = gravity;
+        this.radius = radius;
+        this.bounce = bounce;
+    }
+
+    move(){
+        console.log(this.friction);
+        this.velocity.multiplyBy(this.friction);
+        this.velocity.addTo(this.gravity);
+        this.position.addTo(this.velocity);
+    }
+
+    accelerate(accel){
+        this.velocity.addTo(accel);
+    }
+}
+
+export class Vector{
+
+    constructor(x, y){
+        this._x = x;
+        this._y = y;
+    }
+
+    setX(value){
+        this._x = value;
+    }
+
+    getX(){
+        return this._x;
+    }
+
+    setY(value){
+        this._y = value;
+    }
+
+    getY(){
+        return this._y;
+    }
+
+    setAngle(angle){
+        angle = angle*Math.PI/180;
+        let length = this.getLength();
+        this._x = Math.cos(angle) * length;
+        this._y = Math.sin(angle) * length;
+    }
+
+    setAngleRadians(angle){
+        let length = this.getLength();
+        this._x = Math.cos(angle) * length;
+        this._y = Math.sin(angle) * length;
+    }
+
+    getAngle(){
+        return Math.atan2(this._y, this._x);
+    }
+
+    getLength(){
+        return Math.sqrt(this._x * this._x + this._y * this._y);
+    }
+
+    setLength(length){
+        let angle = this.getAngle();
+        this._x = Math.cos(angle) * length;
+        this._y = Math.sin(angle) * length;
+    }
+
+    add(v2){
+        return new Vector(this._x + v2.getX(), this._y + v2.getY());
+    }
+
+    addTo(v2){
+        this._x += v2.getX();
+        this._y += v2.getY();
+
+    }
+
+    substractFrom(v2){
+        this._x -= v2.getX();
+        this._y -= v2.getY();
+
+    }
+
+    substract(v2){
+        return new Vector(this._x - v2.getX(), this._y - v2.getY());
+    }
+
+    substractFrom(v2){
+        this._x -= v2.getX();
+        this._y -= v2.getY();
+
+    }
+
+    multiply(val){
+        return new Vector(this._x * val, this._y * val);
+    }
+
+    multiplyBy(val){
+        this._x *= val;
+        this._y *= val;    
+    }
+
+    divide(val){
+        return new Vector(this._x / val, this._y / val);
+    }
+
+    divideBy(val){
+        this._x /= val;
+        this._y /= val;      
+    }
+};
+
+import { Particle } from "./particle.js";
+import { Vector } from "./vector.js";
+
+export class Ship{
+
+    constructor(x,y,speed,direction,gravity,radius){
+        this.particle = new Particle(x,y,speed,direction,gravity,radius);
+        this.thrust = new Vector(0,0);
+        this.rotation = 0;
+        this.turningLeft = false;
+        this.turningRight = false;
+        this.isThrusting = false;
+        document.body.addEventListener('keydown', this.input.bind(this));
+        document.body.addEventListener('keyup', this.reset.bind(this));
+    }
+
+    update(){
+        if(this.turningLeft){
+            this.rotation -= .05;
+        }
+        if(this.turningRight){
+            this.rotation += .05;
+        }
+        this.thrust.setAngleRadians(this.rotation);
+        if(this.isThrusting){
+            this.thrust.setLength(.1);
+        }
+        else{
+            this.thrust.setLength(0);
+        }
+        this.particle.accelerate(this.thrust);
+        this.particle.move();
+    }
+
+    input(event){
+        switch(event.keyCode){
+            case 38:
+                this.isThrusting = true;
+                break;
+            case 37:
+                this.turningLeft = true;
+                break;
+            case 39:
+                this.turningRight = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    reset(event){
+      
+        switch(event.keyCode){
+            case 38:
+                this.isThrusting = false;
+                break;
+            case 37:
+                this.turningLeft = false;
+                break;
+            case 39:
+                this.turningRight = false;
+                break;
+            default:
+                break;
+        }
+    }
+    
+}
+
+

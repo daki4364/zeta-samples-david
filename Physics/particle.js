@@ -2,7 +2,7 @@ import {Vector} from './vector.js';
 
 export class Particle{
 
-    constructor(x, y, speed, direction, gravity, radius, bounce, friction){
+    constructor(x, y, speed, direction, gravity, radius, bounce, friction, width, height){
         this.position = new Vector(x,y);
         this.velocity = new Vector(0,0);
         this.velocity.setLength(speed);
@@ -11,10 +11,11 @@ export class Particle{
         this.gravity = gravity;
         this.radius = radius;
         this.bounce = bounce;
+        this.width = width;
+        this.height =  height;
     }
 
     move(){
-        console.log(this.friction);
         this.velocity.multiplyBy(this.friction);
         this.velocity.addTo(this.gravity);
         this.position.addTo(this.velocity);

@@ -1,47 +1,42 @@
 @import url('https://fonts.googleapis.com/css?family=VT323');
 @keyframes blink{
-    0%{opacity: 0}
-    50%{opacity: 1}
-    100%{opacity: 0}
+    0%{opacity: 1}
+    50%{opacity: 0}
+    100%{opacity: 1}
 }
-
 @keyframes shake{
-    0%{transform: translate3D(0,0,0); }
-    20%{transform: translate3D(1%,1%,0); }
-    40%{transform: translate3D(-1%,-1%,0); }
-    60%{transform: translate3D(1%,-1%,0); }
-    80%{transform: translate3D(-1%,1%,0); }
-    100%{transform: translate3D(0,0,0); }
+    0%{transform: translate3D(0,0,0);}
+    20%{transform: translate3D(1%,1%,0);}
+    40%{transform: translate3D(-1%,-1%,0);}
+    60%{transform: translate3D(1%,-1%,0);}
+    80%{transform: translate3D(-1%,1%,0);}
+    100%{transform: translate3D(0,0,0);}
 }
-
-* {
+*{
     box-sizing: border-box;
-    color: white;
     font-size: 6vmin;
-    font-family: 'VT323';
+    font-family: 'VT323' ;
+    color: white;
 }
-
 html, body{
-    background-color:white;
-    border:0;
-    height:99%;
+    background-color: orange;
+    width:100%;
+    height:100%;
     margin:0;
     padding:0;
-    width:99%;
+    border:0;
 }
-
 .container{
-    align-items: center;
+    position:relative;
     display:flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    height:101%;
     justify-content: center;
-    position:relative;
-    width:101%;
+    align-items: center;
+    flex-wrap: wrap;
+    width:90%;
+    height:100%;
 }
-
-.game {
+.game{
     position:relative;
     display: grid;
     grid-template-columns: 1.2fr 1.6fr 1.2fr;
@@ -53,7 +48,7 @@ html, body{
     height: 60vmin;
     background-image: url(./res/background.jpg);
     background-size: cover;
-    background-position-x: 45%;
+    background-position-x: 45% ;
     margin: 2vmin;
     z-index: 0;
 
@@ -62,11 +57,11 @@ html, body{
     animation: shake .2s forwards ease-in-out;
 }
 .area__fail{
-    position: absolute;
+     position: absolute;
     background-color: red ;
     opacity: 0;
-    width:100%;
-    height:100%;
+     width:100%;
+     height:100%;
     pointer-events: none;
     z-index: -1;
  }

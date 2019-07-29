@@ -19,8 +19,8 @@
     color: white;
 }
 html, body{
-    background-color: orange;
-    width:100%;
+    background-color:green;
+    width:50%;
     height:100%;
     margin:0;
     padding:0;
@@ -33,7 +33,7 @@ html, body{
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width:90%;
+    width:30%;
     height:100%;
 }
 .game{
@@ -50,7 +50,7 @@ html, body{
     background-size: cover;
     background-position-x: 45% ;
     margin: 2vmin;
-    z-index: 0;
+    z-index: 2;
 
 }
 .game--fail{

@@ -19,7 +19,7 @@
     color: white;
 }
 html, body{
-    background-color:#131339;
+    background-color: orange;
     width:100%;
     height:100%;
     margin:0;
@@ -33,7 +33,7 @@ html, body{
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width:100%;
+    width:90%;
     height:100%;
 }
 .game{

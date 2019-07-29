@@ -58,7 +58,7 @@ html, body{
 }
 .area__fail{
      position: absolute;
-    background-color: red ;
+    background-color: green ;
     opacity: 0;
      width:100%;
      height:100%;
